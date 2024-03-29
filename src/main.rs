@@ -1,4 +1,10 @@
+mod screen;
+mod stars;
+mod text;
+
 use macroquad::prelude::*;
+use stars::Starfield;
+use text::Text;
 
 fn window_conf() -> Conf {
     Conf {
@@ -11,25 +17,26 @@ fn window_conf() -> Conf {
 
 #[macroquad::main(window_conf)]
 async fn main() {
+    rand::srand(miniquad::date::now() as u64);
+
+    let mut starfield = Starfield::new();
+
+    let mut text = Text::new("RUST CODING DOJO 2024", 70)
+        .speed(8.0)
+        .sinus(true)
+        .color(RED)
+        .rainbow(true)
+        .build();
+
     loop {
         clear_background(BLACK);
 
-        draw_circle(0.0, 0.0, 20.0, WHITE);
+        starfield.add_star();
+        starfield.update();
+        starfield.draw();
 
+        text.draw();
         println!("fps: {}", get_fps());
         next_frame().await;
-    }
-}
-
-#[cfg(test)]
-#[allow(dead_code)]
-#[allow(unused_imports)]
-mod tests {
-    use super::*;
-
-    #[test]
-    // #[macroquad::test]
-    fn fake_test() {
-        assert_eq!(1, 1);
     }
 }

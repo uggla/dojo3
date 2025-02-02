@@ -1,8 +1,9 @@
 const MAX_SIZE: f32 = 8.0;
 const MAX_STARS: usize = 200;
 
-use crate::screen::center;
 use macroquad::prelude::*;
+
+use crate::screen::Centerable;
 
 pub struct Starfield {
     count: usize,
@@ -45,23 +46,22 @@ struct Star {
     color: Color,
 }
 
-fn gen_vel() -> Vec2 {
-    Vec2::new(rand::gen_range(-10.0, 10.0), rand::gen_range(-10.0, 10.0))
-}
-
 impl Star {
     fn new() -> Self {
         Self {
             pos: Vec2::ZERO,
             size: 3.0,
-            vel: gen_vel(),
+            vel: Star::gen_vel(),
             color: BLACK,
         }
     }
 
+    fn gen_vel() -> Vec2 {
+        Vec2::new(rand::gen_range(-10.0, 10.0), rand::gen_range(-10.0, 10.0))
+    }
+
     fn draw(&self) {
-        let center = center();
-        let pos = center + self.pos;
+        let pos = self.pos.centered();
         draw_circle(pos.x, pos.y, self.size, self.color)
     }
 
@@ -85,7 +85,7 @@ impl Star {
         self.update_color();
         if self.pos.x.abs() > screen_width() / 2.0 || self.pos.y.abs() > screen_height() / 2.0 {
             self.pos = Vec2::ZERO;
-            self.vel = gen_vel();
+            self.vel = Star::gen_vel();
             self.color = BLACK;
         }
     }

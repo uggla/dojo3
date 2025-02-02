@@ -1,5 +1,6 @@
-use crate::screen::center;
 use macroquad::prelude::*;
+
+use crate::screen::Centerable;
 
 pub struct Text {
     text: String,
@@ -125,8 +126,7 @@ impl Text {
     }
 
     fn draw_letter(&self, letter: String, pos: Vec2, color: Color) {
-        let center = center();
-        let pos = center + pos;
+        let pos = pos.centered();
         draw_text_ex(
             &letter,
             pos.x,

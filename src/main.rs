@@ -21,7 +21,7 @@ async fn main() {
 
     let mut starfield = Starfield::new();
 
-    let mut text = Text::new("RUST CODING DOJO 2024", 70)
+    let mut text = Text::new("RUST CODING DOJO 2025", 70)
         .speed(8.0)
         .sinus(true)
         .color(RED)
